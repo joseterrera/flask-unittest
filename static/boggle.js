@@ -4,7 +4,6 @@ class BoggleGame {
   constructor(boardId, secs = 60) {
     this.secs = secs; // game length
     this.showTimer();
-
     this.score = 0;
     this.words = new Set();
     // this.board = $("#" + boardId);
@@ -21,32 +20,49 @@ class BoggleGame {
   /* show word in list of words */
 
   showWord(word) {
-    $(".words", this.board).append($("<li>", { text: word }));
+    // $(".words", this.board).append($("<li>", { text: word }));
+    const words =  document.querySelector('.words');
+    const li = document.createElement('li');
+    li.innerText = word;
+    words.append(li)
   }
 
   /* show score in html */
 
   showScore() {
-    $(".score", this.board).text(this.score);
+    // $(".score", this.board).text(this.score);
+    const score = document.querySelector('.score');
+    score.innerText = this.score;
   }
 
   /* show a status message */
 
   showMessage(msg, cls) {
-    $(".msg", this.board)
-      .text(msg)
-      .removeClass()
-      .addClass(`msg ${cls}`);
+    // $(".msg", this.board)
+    //   .text(msg)
+    //   .removeClass()
+    //   .addClass(`msg ${cls}`);
+      const message = document.querySelector('.msg');
+      message.innerText = msg;
+      message.className = "";
+      message.classList.add('msg', cls);
+
   }
 
   /* handle submission of word: if unique and valid, score & show */
 
   async handleSubmit(evt) {
+    const input = document.querySelector('.word');
     evt.preventDefault();
-    const $word = $(".word", this.board);
 
-    let word = $word.val();
-    if (!word) return;
+    // const $word = $(".word", this.board);
+    // let word = $word.val();
+    let word = input.value;
+    console.log(word);
+
+
+    // if (!word) return;
+    if(!word) return;
 
     if (this.words.has(word)) {
       this.showMessage(`Already found ${word}`, "err");
@@ -67,13 +83,17 @@ class BoggleGame {
       this.showMessage(`Added: ${word}`, "ok");
     }
 
-    $word.val("").focus();
+    // $word.val("").focus();
+    input.value = "";
+    input.focus();
   }
 
   /* Update timer in DOM */
 
   showTimer() {
-    $(".timer", this.board).text(this.secs);
+    // $(".timer", this.board).text(this.secs);
+    const timer = document.querySelector('.timer');
+    timer.innerText =this.secs;
   }
 
   /* Tick: handle a second passing in game */
